@@ -1,0 +1,38 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Nexa;
+  font-weight: 300;
+  src: url("./assets/fonts/nexa/NexaLight.ttf");
+}
+
+@font-face {
+  font-family: Nexa;
+  font-weight: 400;
+  src: url("./assets/fonts/nexa/NexaRegular.ttf");
+}
+
+@font-face {
+  font-family: Nexa;
+  font-weight: 700;
+  src: url("./assets/fonts/nexa/NexaBold.ttf");
+}
+
+@font-face {
+  font-family: Nexa;
+  font-weight: 800;
+  src: url("./assets/fonts/nexa/NexaExtraBold.ttf");
+}
+
+@layer components {
+  html {
+    @apply font-nexa text-blue;
+  }
+  .mapboxgl-ctrl-bottom-right {
+    display: none;
+  }
+}
