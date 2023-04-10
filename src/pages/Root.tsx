@@ -6,9 +6,11 @@ const Root = () => {
 
   return (
     <>
-      {pathname !== "/login" && <NavBar />}
+      {pathname !== "/login" && pathname !== "/register" && <NavBar />}
 
-      <Outlet />
+      
+        <Outlet />
+     
     </>
   );
 };

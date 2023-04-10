@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, ErrorPage, Root, Login } from ".";
-
+import { Home, ErrorPage, Root, Login, Register, AddWorkout } from ".";
+import AuthProvider from "./context/AuthContext";
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -49,15 +49,23 @@ const router = createBrowserRouter([
         path: "login",
         element: <Login />,
       },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "add-workout",
+        element: <AddWorkout />,
+      },
     ],
   },
 ]);
 
 function App() {
   return (
-    <>
+    <AuthProvider>
       <RouterProvider router={router} />
-    </>
+    </AuthProvider>
   );
 }
 
