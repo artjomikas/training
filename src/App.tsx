@@ -1,5 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, ErrorPage, Root, Login, Register, AddWorkout } from ".";
+import {
+  Home,
+  ErrorPage,
+  Root,
+  Login,
+  Register,
+  AddWorkout,
+  History,
+  Schedule,
+} from ".";
 import AuthProvider from "./context/AuthContext";
 // const router = createBrowserRouter([
 //   {
@@ -57,7 +66,20 @@ const router = createBrowserRouter([
         path: "add-workout",
         element: <AddWorkout />,
       },
+      {
+        path: "history",
+        element: <History />,
+      },
+      {
+        path: "schedule",
+        element: <Schedule />,
+      },
     ],
+  },
+  {
+    path: "/",
+    element: <Home />,
+    errorElement: <ErrorPage />,
   },
 ]);
 

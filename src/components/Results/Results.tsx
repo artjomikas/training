@@ -2,8 +2,9 @@ import { useNavigate } from "react-router-dom";
 import ResultsGrid from "./ResultsGrid";
 
 
-const Results = () => {
+const Results = ({data} : any) => {
   const navigate = useNavigate()
+
 
   return (
     <div className="pt-14">
@@ -12,11 +13,11 @@ const Results = () => {
       <div className="flex items-center gap-4">
         <div className="font-extrabold text-3xl">Result Found</div>
         <div className="px-4 py-1 bg-[#F39F2D]/30 rounded-xl font-bold font-poppins text-orange text-2xl">
-          4
+          {data.length}
         </div>
       </div>
 
-      <ResultsGrid />
+      <ResultsGrid data={data} />
     </div>
   );
 };
