@@ -1,30 +1,35 @@
 import { useContext, useEffect, useState } from "react";
 import { IReview } from "../domain/IReview";
-import { ReviewService } from "../services/ReviewService";
-import { AuthContext } from "../context/AuthContext";
+import { WorkoutService } from "../services/WorkoutService";
 import Results from "../components/Results/Results";
+import Greeting from "../components/Greeting";
+import MapBox from "../components/Map/MapBox";
 
 const Home = () => {
-  const reviewService = new ReviewService();
-  const { user, setJwtResponse } = useContext(AuthContext);
+  const workoutService = new WorkoutService();
 
   const [data, setData] = useState([] as IReview[]);
 
-  // useEffect(() => {
-  //   reviewService.getAll().then((response) => {
-  //     if (response) {
-  //       setData(response);
-  //     } else {
-  //       setData([]);
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    workoutService.getAll().then((response) => {
+      if (response) {
+        setData(response);
+      } else {
+        setData([]);
+      }
+    });
+  }, []);
 
   return (
     <div className="container mx-auto p-2 grid grid-cols-2 pt-12">
+      <div className="">
+        <Greeting />
+        <Results data={data} />
+      </div>
+
       
-      <Results />
-      {/* <div className="">JWT: {jwtResponse.jwt}</div> */}
+        <MapBox />
+  
     </div>
   );
 };

@@ -4,7 +4,6 @@ import ProfileDropDown from "./ProfileDropDown";
 import { useOnClickOutside } from "usehooks-ts";
 
 const ProfileAvatar = () => {
-  const url = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/";
   const { user } = useContext(AuthContext);
   const [showDropDown, setShowDropDown] = useState(false);
 
@@ -26,9 +25,7 @@ const ProfileAvatar = () => {
         className="items-center gap-4 cursor-pointer float-right flex"
         onClick={() => setShowDropDown(!showDropDown)}
       >
-        <h3 id="name">{`${user[url + "givenname"]} ${
-          user[url + "surname"]
-        }`}</h3>
+        <h3 id="name">{`${user.firstName} ${user.lastName}`}</h3>
         <img
           id="avatar"
           src="https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol-thumbnail.png"
