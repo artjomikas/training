@@ -13,7 +13,7 @@ const ResultBlock = ({
 }: IResult) => {
   return (
     <div className="rounded-2xl flex flex-col p-3 max-w-[210px] max-h-[300px] w-full border-[0.5px] border-solid border-[#E8ECF2] hover:border-[#b8c4da] cursor-pointer font-poppins">
-      <img src={image} className="h-[125px]"></img>
+      <img src={image} className="h-[125px] rounded-md"></img>
 
       <div className="pt-3 font-bold font-poppins text-[16px] break-words line-clamp-2 pb-3">
         {name}
@@ -29,7 +29,8 @@ const ResultBlock = ({
         <MdAccessTimeFilled />
         {/* <img src={time} className="pb-[1px]"></img> */}
         <p className="text-[14px] font-medium">
-          {dayjs(date).format("MMM d, HH:mm")} - {dayjs(duration).format("HH:mm")}
+          {dayjs(date).format("MMM d, HH:mm")} -{" "}
+          {dayjs(duration).format("HH:mm")}
         </p>
       </div>
 
@@ -39,8 +40,7 @@ const ResultBlock = ({
         <p>{price == 0 ? "FREE" : price + "€"}</p>
 
         <div className="flex items-center">
-          <FaUser className="pb-[2px]"/>
-          {/* <img src={user} className="pb-[1px]"></img> */}
+          <FaUser className="pb-[2px]" />
           <p>{maxParticipants.toString()}</p>
         </div>
       </div>

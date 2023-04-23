@@ -8,9 +8,7 @@ const Root = () => {
     <>
       {pathname !== "/login" && pathname !== "/register" && <NavBar />}
 
-      
-        <Outlet />
-     
+      <Outlet />
     </>
   );
 };

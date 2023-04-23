@@ -1,4 +1,4 @@
-import Map, {
+import MapGL, {
   Marker,
   Popup,
   NavigationControl,
@@ -7,25 +7,23 @@ import Map, {
 } from "react-map-gl";
 import { useState, useMemo } from "react";
 import Pin from "../Pin";
-import { resultData } from "../../data";
+import { resultData } from "../../data.js";
 import "mapbox-gl/dist/mapbox-gl.css";
 
 const TOKEN =
   "pk.eyJ1IjoiZGlsbG9uenEiLCJhIjoiY2s2czd2M2x3MDA0NjNmcGxmcjVrZmc2cyJ9.aSjv2BNuZUfARvxRYjSVZQ"; // Set your mapbox token here
 
-const MapBox = () => {
+const MapBox = ({ data }) => {
   const [popupInfo, setPopupInfo] = useState(null);
 
   const pins = useMemo(
     () =>
-      resultData.map((city, index) => (
+      data.map((city, index) => (
         <Marker
           key={`marker-${index}`}
-          longitude={city.longitude}
-          latitude={city.latitude}
+          longitude={city.location.longitude}
+          latitude={city.location.latitude}
           onClick={(e) => {
-            // If we let the click event propagates to the map, it will immediately close the popup
-            // with `closeOnClick: true`
             e.originalEvent.stopPropagation();
             setPopupInfo(city);
           }}
@@ -33,12 +31,12 @@ const MapBox = () => {
           <Pin />
         </Marker>
       )),
-    []
+    [data]
   );
 
   return (
-    <div className="pt-40">
-      <Map
+    <div className="pt-16">
+      <MapGL
         initialViewState={{
           latitude: 59.4203,
           longitude: 24.6892,
@@ -48,8 +46,16 @@ const MapBox = () => {
         }}
         mapStyle="mapbox://styles/mapbox/light-v9"
         mapboxAccessToken={TOKEN}
+        onRender={(event) => event.target.resize()}
+        style={{ height: "600px" }}
       >
-        <GeolocateControl position="top-left" trackUserLocation={true} />
+        <GeolocateControl
+          position="top-left"
+          positionOptions={{ enableHighAccuracy: true }}
+          trackUserLocation={true}
+          showAccuracyCircle={false}
+          showUserLocation={true}
+        />
         <FullscreenControl position="top-left" />
         <NavigationControl position="top-left" />
 
@@ -72,7 +78,7 @@ const MapBox = () => {
             </div>
           </Popup>
         )}
-      </Map>
+      </MapGL>
     </div>
   );
 };

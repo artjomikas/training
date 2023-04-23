@@ -2,6 +2,7 @@ import AutofillCheckoutDemo from "../components/AutofillCheckoutDemo";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import { workoutTypes } from "../data/workoutTypes";
+import { workoutImages } from "../data/workoutImages";
 import { skillLevels } from "../data/skillLevels";
 import { workoutIntensities } from "../data/workoutIntensities";
 import "react-datepicker/dist/react-datepicker.css";
@@ -12,23 +13,24 @@ import { useNavigate } from "react-router-dom";
 
 const AddWorkout = () => {
   const { register, handleSubmit } = useForm();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [startDate, setStartDate] = useState(new Date());
   const [startDateDuration, setStartDateDuration] = useState(new Date());
   const [location, setLocation] = useState<any>("");
 
   const onSubmit = async (data: any) => {
-    // setValidationError("");
+    for (let workout of workoutImages) {
+      if (workout.id == data.workoutTypeId) {
+        let rand = Math.floor(Math.random() * workout.link.length);
+        data.image = workout.link[rand].link;
+      }
+    }
 
-    // if (data.password !== data.confirmpassword) {
-    //   setValidationError("Passwords must be the same!");
-    //   return;
-    // }
     data.location = {
       name: location.properties.address_line1,
-      latitude: location.geometry.coordinates[0],
-      longitude: location.geometry.coordinates[1],
+      latitude: location.geometry.coordinates[1],
+      longitude: location.geometry.coordinates[0],
     };
 
     data.date = startDate;
@@ -37,16 +39,8 @@ const AddWorkout = () => {
     data.appUserId = "378e2b3c-829c-48c6-83dc-fa2aab6b0709";
     const workoutService = new WorkoutService();
 
-    console.log(data);
     const resp = await workoutService.add(data);
-
     console.log(resp);
-    // if (resp?.status === 400) {
-    //   setValidationError(resp.error);
-    //   return;
-    // }
-
-    // setJwtResponse(resp?.data);
     navigate("/");
   };
 

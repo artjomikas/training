@@ -1,9 +1,8 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 
 const ProfileDropDown = (props: any) => {
-  let navigate = useNavigate();
   const { logout } = useContext(AuthContext);
 
   return (
@@ -26,17 +25,18 @@ const ProfileDropDown = (props: any) => {
           <p className="block py-2 px-4 hover:bg-gray-100">Settings</p>
         </NavLink>
 
-        <p
+        <NavLink
+          to="/"
           className="block py-3 mb-2 px-4 hover:bg-gray-100 border-t-2"
           onClick={() => {
             props.setShowDropDown(!props.showDropDown);
             logout();
-            navigate("/");
+
             // logout();
           }}
         >
           Sign Out
-        </p>
+        </NavLink>
       </div>
     </div>
   );

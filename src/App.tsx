@@ -10,6 +10,7 @@ import {
   Schedule,
 } from ".";
 import AuthProvider from "./context/AuthContext";
+import DataProvider from "./context/DataContext";
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -86,7 +87,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <AuthProvider>
-      <RouterProvider router={router} />
+      <DataProvider>
+        <RouterProvider router={router} />
+      </DataProvider>
     </AuthProvider>
   );
 }
