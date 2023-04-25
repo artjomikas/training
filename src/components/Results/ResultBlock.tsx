@@ -6,8 +6,8 @@ const ResultBlock = ({
   image,
   name,
   location,
-  date,
-  duration,
+  startDate,
+  endDate,
   price,
   maxParticipants,
 }: IResult) => {
@@ -29,8 +29,8 @@ const ResultBlock = ({
         <MdAccessTimeFilled />
         {/* <img src={time} className="pb-[1px]"></img> */}
         <p className="text-[14px] font-medium">
-          {dayjs(date).format("MMM d, HH:mm")} -{" "}
-          {dayjs(duration).format("HH:mm")}
+          {dayjs(startDate).format("MMM d, HH:mm")} -{" "}
+          {dayjs(endDate).format("HH:mm")}
         </p>
       </div>
 

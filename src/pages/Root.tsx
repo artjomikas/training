@@ -8,7 +8,9 @@ const Root = () => {
     <>
       {pathname !== "/login" && pathname !== "/register" && <NavBar />}
 
-      <Outlet />
+      <div className={`${pathname !== "/login" && pathname !== "/register" && "container mx-auto p-2 pt-12"}`}>
+        <Outlet />
+      </div>
     </>
   );
 };

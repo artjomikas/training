@@ -17,7 +17,7 @@ const Home = () => {
 
   useEffect(() => {
     workoutService
-      .getWithDate({ Date: addDays(selectedDate, 1) })
+      .getWithDate({ startDate: addDays(selectedDate, 1) })
       .then((response) => {
         if (response) {
           setData(response);
@@ -28,7 +28,7 @@ const Home = () => {
   }, [selectedDate]);
 
   return (
-    <div className="container mx-auto p-2 grid grid-cols-2 pt-12">
+    <div className="grid grid-cols-2">
       <div className="">
         <Greeting />
         <Results data={data} />

@@ -21,4 +21,22 @@ export class WorkoutService extends BaseEntityService<any> {
       return undefined;
     }
   }
+
+  async joinWorkout(data: any): Promise<any | undefined> {
+    try {
+      const response = await this.axios.post<any>("/join", data);
+
+      console.log(response);
+
+      if (response.status === 200) {
+        return response.data;
+      }
+
+      return undefined;
+    } catch (e) {
+      console.log("error: ", (e as Error).message);
+      return undefined;
+    }
+  }
+
 }

@@ -6,8 +6,8 @@ export interface IResult {
   location: ILocation;
   id: string;
   description: string;
-  date: string;
-  duration: string;
+  startDate: string;
+  endDate: string;
   currentParticipants: Number;
   maxParticipants: Number;
   price: Number;

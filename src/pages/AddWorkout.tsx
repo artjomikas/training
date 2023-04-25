@@ -16,7 +16,7 @@ const AddWorkout = () => {
   const navigate = useNavigate();
 
   const [startDate, setStartDate] = useState(new Date());
-  const [startDateDuration, setStartDateDuration] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [location, setLocation] = useState<any>("");
 
   const onSubmit = async (data: any) => {
@@ -33,8 +33,8 @@ const AddWorkout = () => {
       longitude: location.geometry.coordinates[0],
     };
 
-    data.date = startDate;
-    data.duration = startDateDuration;
+    data.startDate = startDate;
+    data.endDate = endDate;
 
     data.appUserId = "378e2b3c-829c-48c6-83dc-fa2aab6b0709";
     const workoutService = new WorkoutService();
@@ -46,7 +46,7 @@ const AddWorkout = () => {
 
   return (
     // xl:w-1/3  2xl:w-1/4
-    <div className="container mx-auto pt-12 font-poppins">
+    <div className="mx-auto font-poppins">
       <div className="w-[80%] mx-auto pb-8">
         <h1 className="text-5xl leading-relaxed font-bold bg-gradient-to-r from-slate-800 to-violet-800 bg-clip-text  text-transparent">
           Add workout
@@ -177,9 +177,9 @@ const AddWorkout = () => {
                 <div className="mt-2">
                   <DatePicker
                     className="input cursor-pointer"
-                    selected={startDateDuration}
+                    selected={endDate}
                     minDate={new Date()}
-                    onChange={(date) => setStartDateDuration(date)}
+                    onChange={(date) => setEndDate(date)}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}

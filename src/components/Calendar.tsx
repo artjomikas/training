@@ -25,28 +25,40 @@ const Calendar = () => {
   const { selectedDate, setSelectedDate } = useContext(DataContext);
 
   let today = startOfToday();
-
   let [startDate, setStartDate] = useState(today);
-  let [endDate, setEndDate] = useState(addDays(today, 4));
+  const [intervalDate, setIntervalDate] = useState(today);
 
-  let [currentMonth, setCurrentMonth] = useState(format(today, "MMM-yyyy"));
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    const date = addDays(startDate, 4 * count);
+    setIntervalDate(date);
+  }, [count]);
 
   let days = eachDayOfInterval({
-    start: today,
-    end: addDays(today, 4),
+    start: intervalDate,
+    end: addDays(intervalDate, 4),
   });
 
   return (
     <div className="flex flex-col items-center">
       <div className="flex items-center">
-        <MdOutlineKeyboardArrowLeft size={27} className="text-[#F39F2D]" />
+        <MdOutlineKeyboardArrowLeft
+          size={27}
+          className="text-[#F39F2D] cursor-pointer"
+          onClick={() => count > 0 && setCount(count - 1)}
+        />
         <p className="font-semibold text-xl">
-          {` ${format(selectedDate, "LLLL")}  ${format(
-            startDate,
+          {` ${format(intervalDate, "LLLL")}  ${format(
+            intervalDate,
             "d"
-          )} - ${format(endDate, "d")}`}
+          )} - ${format(addDays(intervalDate, 4), "d")}`}
         </p>
-        <MdOutlineKeyboardArrowRight size={27} className="text-[#F39F2D]" />
+        <MdOutlineKeyboardArrowRight
+          size={27}
+          className="text-[#F39F2D] cursor-pointer"
+          onClick={() => setCount(count + 1)}
+        />
       </div>
 
       <div className="flex gap-[30px] pt-4">
@@ -60,7 +72,9 @@ const Calendar = () => {
             >
               <button
                 className={`flex flex-col items-center  leading-5
-              ${!isEqual(date, selectedDate) ? "text-[#8C9AAD]" : "text-white"}`}
+              ${
+                !isEqual(date, selectedDate) ? "text-[#8C9AAD]" : "text-white"
+              }`}
                 onClick={() => setSelectedDate(date)}
               >
                 <h2>{format(date, "iiiiii")}</h2>
