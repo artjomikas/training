@@ -1,15 +1,13 @@
 import { BaseEntityService } from "./BaseEntityService";
 
-export class WorkoutService extends BaseEntityService<any> {
+export class WorkoutUsersService extends BaseEntityService<any> {
   constructor() {
-    super("v1/Workouts");
+    super("v1/WorkoutUsers");
   }
 
-  async getWithDate(data: any): Promise<any | undefined> {
+  async getSchedule(data: any): Promise<any | undefined> {
     try {
-      const response = await this.axios.post<any>("/date", data);
-
-      console.log(response);
+      const response = await this.axios.post<any>("schedule", data);
 
       if (response.status === 200) {
         return response.data;
@@ -21,6 +19,5 @@ export class WorkoutService extends BaseEntityService<any> {
       return undefined;
     }
   }
-
 
 }

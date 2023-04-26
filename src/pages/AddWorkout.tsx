@@ -7,9 +7,8 @@ import { skillLevels } from "../data/skillLevels";
 import { workoutIntensities } from "../data/workoutIntensities";
 import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
-import { WorkoutService } from "../services/WorkoutService";
-import { ILocation } from "../domain/ILocation";
 import { useNavigate } from "react-router-dom";
+import { WorkoutService } from "../services/WorkoutService";
 
 const AddWorkout = () => {
   const { register, handleSubmit } = useForm();

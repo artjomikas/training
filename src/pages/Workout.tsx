@@ -3,7 +3,8 @@ import Intensity from "../components/Intensity";
 import { format } from "date-fns";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useState, useEffect } from "react";
-import { WorkoutService } from "../services/WorkoutService";
+
+import { WorkoutUsersService } from './../services/WorkoutUsersService';
 
 const Workout = () => {
   const { state } = useLocation();
@@ -34,9 +35,9 @@ const Workout = () => {
       WorkoutId: id,
     };
 
-    const workoutService = new WorkoutService();
+    const workoutUsersService = new WorkoutUsersService();
 
-    await workoutService.joinWorkout(data);
+    await workoutUsersService.add(data);
 
     setJoined(true);
   };
