@@ -3,7 +3,8 @@ import { WorkoutUsersService } from "../services/WorkoutUsersService";
 import { AuthContext } from "../context/AuthContext";
 import Workout from "./Workout";
 import { group } from "group-items";
-import { MdAccessTimeFilled } from "react-icons/md";
+import { MdAccessTimeFilled, MdLocationOn, MdDateRange } from "react-icons/md";
+import { BiDumbbell } from "react-icons/bi";
 
 import {
   add,
@@ -37,7 +38,7 @@ const Schedule = () => {
 
         const data = group(response)
           .by((workout) =>
-            format(Date.parse(workout.workout.startDate), "d.MM - iiii")
+            format(Date.parse(workout.workout.startDate), "d.MM - iii")
           )
           .asEntries();
 
@@ -58,7 +59,7 @@ const Schedule = () => {
     }
   }, [selectedDate]);
   return (
-    <>
+    <div className="font-poppins container max-w-5xl mx-auto">
       <div className="flex items-end gap-x-16 border-b-[1px] mb-8 ">
         <h3 className="text-[45px] tracking-tight font-nexa  leading-14">
           Schedule
@@ -81,25 +82,70 @@ const Schedule = () => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-12">
+      <div className="flex flex-col gap-10">
         {workouts.map((res: any, i: number) => (
-          <div key={i} className="flex gap-8 border-gray-200 border-b-[3px] pb-4">
-            <div className="flex w-[20%] flex-col justify-between  p-1">
-              <div className="flex items-center gap-2">
-                <MdAccessTimeFilled size={30} />
-                <p className="text-2xl">
-                  {format(Date.parse(res.workout.startDate), "HH:MM")}
-                </p>
+          <div
+            key={i}
+            className="flex justify-between  border-gray-100 border p-6 rounded-2xl shadow-lg  hover:bg-gray-100/30 "
+          >
+            <div className="flex flex-col justify-between">
+              <div className="w-full text-3xl capitalize font-medium">
+                {res.workout.name}
               </div>
-              <div className="font-poppins text-xl font-medium">{res.workout.price} €</div>
+
+              <div className="pt-3 text-slate-700 font-light">
+                <div className="flex flex-row gap-2 text-md">
+                  <MdLocationOn size={20} />
+                  <p>{res.workout.location.name}</p>
+                </div>
+
+                <div className="flex flex-row gap-2 ">
+                  <MdDateRange size={20} />
+                  <p>
+                    {format(Date.parse(res.workout.startDate), "HH:MM")} -{" "}
+                    {format(Date.parse(res.workout.endDate), "HH:MM")}
+                  </p>
+                </div>
+
+                <div className="flex flex-row gap-2 ">
+                  <BiDumbbell size={20} />
+                  <p>{res.workout.workoutType.name}</p>
+                </div>
+              </div>
             </div>
 
-            <img className="h-[180px] " src={res.workout.image}></img>
-            <div className="w-full text-3xl capitalize pt-2">{res.workout.name}</div>
+            <div className="flex  flex-col justify-between">
+              <div className="flex -space-x-4">
+                <img
+                  className="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
+                  src="https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol-thumbnail.png"
+                  alt=""
+                ></img>{" "}
+                <img
+                  className="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
+                  src="https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol-thumbnail.png"
+                  alt=""
+                ></img>{" "}
+                <img
+                  className="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
+                  src="https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol-thumbnail.png"
+                  alt=""
+                ></img>
+                <a
+                  className="flex items-center justify-center w-8 h-8 text-xs font-medium text-white bg-orange border-2 border-white rounded-full"
+                  href="#"
+                >
+                  +2
+                </a>
+              </div>
+              <button className="p-2 border rounded-xl cursor-pointer hover:bg-gray-300">
+                more info
+              </button>
+            </div>
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 export default Schedule;

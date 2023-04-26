@@ -21,6 +21,7 @@ const AddWorkout = () => {
   const onSubmit = async (data: any) => {
     for (let workout of workoutImages) {
       if (workout.id == data.workoutTypeId) {
+        console.log(workout.link.length);
         let rand = Math.floor(Math.random() * workout.link.length);
         data.image = workout.link[rand].link;
       }
