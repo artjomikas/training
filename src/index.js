@@ -12,3 +12,4 @@ export { default as AddWorkout } from './pages/AddWorkout';
 export { default as Schedule } from './pages/Schedule';
 export { default as History } from './pages/History';
 export { default as Workout } from './pages/Workout';
+export { default as Profile } from './pages/Profile';

@@ -30,7 +30,7 @@ export abstract class BaseEntityService<
       if (response.status === 200) {
         return response.data;
       }
-      
+
       return undefined;
     } catch (e) {
       console.log("error: ", (e as Error).message);

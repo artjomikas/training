@@ -11,7 +11,6 @@ const ResultsGrid = ({ data }: any) => {
           to={{
             pathname: `/workout/${res.id}`,
           }}
-          state={{ res }}
         >
           <ResultBlock {...res} />
         </Link>

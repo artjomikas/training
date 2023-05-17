@@ -1,9 +1,14 @@
+import { IIntensity } from "./IIntensity";
 import { ILocation } from "./ILocation";
+import { ISkillLevel } from "./ISkillLevel";
+import { IWorkoutType } from "./IWorkoutType";
+import { IWorkoutUsers } from "./IWorkoutUser";
+import { IComment } from "./IComment";
 
 export interface IResult {
   image: any;
   name: string;
-  location: ILocation;
+  locationName: string;
   id: string;
   description: string;
   startDate: string;
@@ -11,7 +16,9 @@ export interface IResult {
   currentParticipants: Number;
   maxParticipants: Number;
   price: Number;
-  workoutType: string;
-  skillLevel: string;
-  intensity: string;
+  workoutTypeName: string;
+  skillLevelName: string;
+  intensityName: string;
+  workoutUsers: IWorkoutUsers[];
+  comments: IComment[];
 }

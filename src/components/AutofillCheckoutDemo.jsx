@@ -25,7 +25,8 @@ export default function Address({location, setLocation}) {
   const handleRetrieve = useCallback(
     (res) => {
       const feature = res.features[0];
-
+      console.log(res);
+      console.log(feature);
       setLocation(feature)
 
       setFeature(feature);

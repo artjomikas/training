@@ -9,6 +9,7 @@ import {
   History,
   Schedule,
   Workout,
+  Profile
 } from ".";
 import AuthProvider from "./context/AuthContext";
 import DataProvider from "./context/DataContext";
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: "schedule",
         element: <Schedule />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
       },
       {
         path: "workout/:id",

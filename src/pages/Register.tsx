@@ -103,7 +103,7 @@ const Register = () => {
                 className="text-sm text-slate-500 hover:text-slate-800 hover:underline cursor-pointer"
                 to="/login"
               >
-                Already have account
+                Already have an account
               </Link>
             </div>
           </form>

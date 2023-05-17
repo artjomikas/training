@@ -1,5 +1,5 @@
 import AutofillCheckoutDemo from "../components/AutofillCheckoutDemo";
-import { useState } from "react";
+import { useState, useContext} from "react";
 import DatePicker from "react-datepicker";
 import { workoutTypes } from "../data/workoutTypes";
 import { workoutImages } from "../data/workoutImages";
@@ -10,7 +10,11 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { WorkoutService } from "../services/WorkoutService";
 
+import { AuthContext } from "../context/AuthContext";
+
 const AddWorkout = () => {
+  const { user } = useContext(AuthContext);
+
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
 
@@ -19,9 +23,9 @@ const AddWorkout = () => {
   const [location, setLocation] = useState<any>("");
 
   const onSubmit = async (data: any) => {
+
     for (let workout of workoutImages) {
       if (workout.id == data.workoutTypeId) {
-        console.log(workout.link.length);
         let rand = Math.floor(Math.random() * workout.link.length);
         data.image = workout.link[rand].link;
       }
@@ -36,11 +40,10 @@ const AddWorkout = () => {
     data.startDate = startDate;
     data.endDate = endDate;
 
-    data.appUserId = "378e2b3c-829c-48c6-83dc-fa2aab6b0709";
+    data.appUserId = user.id;
     const workoutService = new WorkoutService();
 
     const resp = await workoutService.add(data);
-    console.log(resp);
     navigate("/");
   };
 
@@ -96,7 +99,7 @@ const AddWorkout = () => {
                 {...register("workoutTypeId")}
               >
                 {workoutTypes.map((elem, index) => (
-                  <option value={elem.id}>{elem.name}</option>
+                  <option key={index} value={elem.id}>{elem.name}</option>
                 ))}
               </select>
             </div>
@@ -113,7 +116,7 @@ const AddWorkout = () => {
                   {...register("intensityId")}
                 >
                   {workoutIntensities.map((elem, index) => (
-                    <option value={elem.id}>{elem.name}</option>
+                    <option key={index} value={elem.id}>{elem.name}</option>
                   ))}
                 </select>
               </div>
@@ -128,7 +131,7 @@ const AddWorkout = () => {
                   {...register("skillLevelId")}
                 >
                   {skillLevels.map((elem, index) => (
-                    <option value={elem.id}>{elem.name}</option>
+                    <option key={index} value={elem.id}>{elem.name}</option>
                   ))}
                 </select>
               </div>

@@ -23,4 +23,21 @@ export class WorkoutService extends BaseEntityService<any> {
   }
 
 
+  async getById(id: string): Promise<any | undefined> {
+    try {
+      const response = await this.axios.get<any>(`/${id}`);
+
+      console.log(response);
+
+      if (response.status === 200) {
+        return response.data;
+      }
+
+      return undefined;
+    } catch (e) {
+      console.log("error: ", (e as Error).message);
+      return undefined;
+    }
+  }
+
 }

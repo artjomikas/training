@@ -12,34 +12,30 @@ import "mapbox-gl/dist/mapbox-gl.css";
 const TOKEN =
   "pk.eyJ1IjoiZGlsbG9uenEiLCJhIjoiY2s2czd2M2x3MDA0NjNmcGxmcjVrZmc2cyJ9.aSjv2BNuZUfARvxRYjSVZQ"; // Set your mapbox token here
 
-const MapBox = ({ data }) => {
+const MapWorkout = ({ data }) => {
   const [popupInfo, setPopupInfo] = useState(null);
 
-  const pins = useMemo(
-    () =>
-      data.map((city, index) => (
-        <Marker
-          key={`marker-${index}`}
-          longitude={city.locationLongitude}
-          latitude={city.locationLatitude}
-          onClick={(e) => {
-            e.originalEvent.stopPropagation();
-            setPopupInfo(city);
-          }}
-        >
-          <Pin />
-        </Marker>
-      )),
-    [data]
-  );
+  const pins = useMemo(() => (
+    <Marker
+      key={`marker-1`}
+      longitude={data.locationLongitude}
+      latitude={data.locationLatitude}
+      onClick={(e) => {
+        e.originalEvent.stopPropagation();
+        setPopupInfo(data);
+      }}
+    >
+      <Pin />
+    </Marker>
+  ));
 
   return (
-    <div className="pt-16">
+    <div className="pt-4">
       <MapGL
         initialViewState={{
-          latitude: 59.4203,
-          longitude: 24.6892,
-          zoom: 12.65,
+          latitude: data.locationLatitude,
+          longitude: data.locationLongitude,
+          zoom: 14.65,
           bearing: 0,
           pitch: 0,
         }}
@@ -81,4 +77,4 @@ const MapBox = ({ data }) => {
     </div>
   );
 };
-export default MapBox;
+export default MapWorkout;

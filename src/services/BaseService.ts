@@ -45,6 +45,7 @@ export abstract class BaseService {
             BaseService.hostBaseURL + "v1/identity/account/RefreshToken",
             payload
           );
+          
           localStorage.setItem("tokens", JSON.stringify(apiResponse.data));
           error.config.headers[
             "Authorization"

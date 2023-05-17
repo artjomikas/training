@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 const ResultBlock = ({
   image,
   name,
-  location,
+  locationName,
   startDate,
   endDate,
   price,
@@ -22,7 +22,7 @@ const ResultBlock = ({
       <div className="flex items-center gap-1">
         <MdLocationOn />
         {/* <img src={MdLocationOn} className="pb-[1px]"></img> */}
-        <p className="text-[14px] font-semibold">{location.name}</p>
+        <p className="text-[14px] font-semibold">{locationName}</p>
       </div>
 
       <div className="flex items-center gap-1">
