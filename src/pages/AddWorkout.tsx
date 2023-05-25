@@ -165,7 +165,7 @@ const AddWorkout = () => {
                     className="cursor-pointer input"
                     selected={startDate}
                     minDate={new Date()}
-                    onChange={(date) => setStartDate(date)}
+                    onChange={(date) => setStartDate(date as Date)}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}
@@ -185,7 +185,7 @@ const AddWorkout = () => {
                     className="input cursor-pointer"
                     selected={endDate}
                     minDate={new Date()}
-                    onChange={(date) => setEndDate(date)}
+                    onChange={(date) => setEndDate(date as Date)}
                     showTimeSelect
                     timeFormat="HH:mm"
                     timeIntervals={15}
