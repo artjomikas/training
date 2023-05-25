@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 
 const ProfileDropDown = (props: any) => {
-  const { logout } = useContext(AuthContext);
+  const { logout, user } = useContext(AuthContext);
 
   return (
     <div className="absolute rounded-md w-44 top-[70px] bg-white border-gray-200 text-sm drop-shadow-xl">
@@ -15,7 +15,8 @@ const ProfileDropDown = (props: any) => {
         <p className="block py-1"></p>
 
         <NavLink
-          to="profile"
+          to={`profile/${user.id}`}
+          key={user.id}
           onClick={() => props.setShowDropDown(!props.showDropDown)}
         >
           <p className="block py-2 px-4 hover:bg-gray-100">Profile</p>
@@ -31,8 +32,6 @@ const ProfileDropDown = (props: any) => {
           onClick={() => {
             props.setShowDropDown(!props.showDropDown);
             logout();
-
-            // logout();
           }}
         >
           Sign Out

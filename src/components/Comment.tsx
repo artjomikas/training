@@ -1,34 +1,54 @@
 import { IComment } from "../domain/IComment";
 import dayjs from "dayjs";
 import { TbMessageCircle } from "react-icons/tb";
+import CommentSettingDropDown from "./CommentSettingDropDown";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 const Comment = ({
   data,
   setReply,
   setReplyMessageId,
   style,
+  deleteComment,
 }: {
   data: IComment;
   setReply: React.Dispatch<React.SetStateAction<string>>;
   setReplyMessageId: React.Dispatch<React.SetStateAction<string>>;
   style: string;
+  deleteComment: any;
 }) => {
+  const { user } = useContext(AuthContext);
+
+  console.log(data);
   return (
     <article className={`p-6 ${style}`}>
-      <div className="flex items-center pb-2">
-        <p className="inline-flex items-center mr-3 text-sm text-gray-900 ">
-          <img
-            id="avatar"
-            src="https://w7.pngwing.com/pngs/981/645/png-transparent-default-profile-united-states-computer-icons-desktop-free-high-quality-person-icon-miscellaneous-silhouette-symbol-thumbnail.png"
-            className="mr-2 w-6 h-6 rounded-full "
-            alt="Profile Avatar"
+      <footer className="flex justify-between items-center mb-2">
+        <div className="flex items-center pb-2">
+
+          <p className="inline-flex items-center mr-3 text-sm text-gray-900 ">
+            <img
+              id="avatar"
+              src={data.appUser.image}
+              className="mr-2 w-6 h-6 rounded-full "
+              alt="Profile Avatar"
+            />
+            {data.appUser.firstName} {data.appUser.lastName}
+          </p>
+          
+          <p className="text-sm text-gray-600">
+            {dayjs(data.createdAt).format("MMM DD, HH:mm")}
+          </p>
+        </div>
+
+        {(data.appUser.id == user?.id && (
+          <CommentSettingDropDown
+            commentId={data.id}
+            deleteComment={deleteComment}
           />
-          {data.appUserFirstName} {data.appUserLastName}
-        </p>
-        <p className="text-sm text-gray-600">
-          {dayjs(data.createdAt).format("MMM DD, HH:mm")}
-        </p>
-      </div>
+        )) ||
+          ""}
+      </footer>
 
       <p className="text-gray-500 dark:text-gray-400">{data.text}</p>
 
@@ -38,7 +58,7 @@ const Comment = ({
           className="flex items-center text-sm text-gray-500 hover:underline"
           onClick={() => {
             setReply(
-              `Reply to ${data.appUserFirstName} ${data.appUserLastName}`
+              `Reply to ${data.appUser.firstName} ${data.appUser.lastName}`
             );
             setReplyMessageId(data.id);
           }}

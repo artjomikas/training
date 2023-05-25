@@ -1,5 +1,5 @@
 import AutofillCheckoutDemo from "../components/AutofillCheckoutDemo";
-import { useState, useContext} from "react";
+import { useState, useContext } from "react";
 import DatePicker from "react-datepicker";
 import { workoutTypes } from "../data/workoutTypes";
 import { workoutImages } from "../data/workoutImages";
@@ -9,7 +9,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { WorkoutService } from "../services/WorkoutService";
-
 import { AuthContext } from "../context/AuthContext";
 
 const AddWorkout = () => {
@@ -23,7 +22,6 @@ const AddWorkout = () => {
   const [location, setLocation] = useState<any>("");
 
   const onSubmit = async (data: any) => {
-
     for (let workout of workoutImages) {
       if (workout.id == data.workoutTypeId) {
         let rand = Math.floor(Math.random() * workout.link.length);
@@ -36,11 +34,10 @@ const AddWorkout = () => {
       latitude: location.geometry.coordinates[1],
       longitude: location.geometry.coordinates[0],
     };
-
     data.startDate = startDate;
     data.endDate = endDate;
-
     data.appUserId = user.id;
+
     const workoutService = new WorkoutService();
 
     const resp = await workoutService.add(data);
@@ -99,7 +96,9 @@ const AddWorkout = () => {
                 {...register("workoutTypeId")}
               >
                 {workoutTypes.map((elem, index) => (
-                  <option key={index} value={elem.id}>{elem.name}</option>
+                  <option key={index} value={elem.id}>
+                    {elem.name}
+                  </option>
                 ))}
               </select>
             </div>
@@ -116,7 +115,9 @@ const AddWorkout = () => {
                   {...register("intensityId")}
                 >
                   {workoutIntensities.map((elem, index) => (
-                    <option key={index} value={elem.id}>{elem.name}</option>
+                    <option key={index} value={elem.id}>
+                      {elem.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -131,7 +132,9 @@ const AddWorkout = () => {
                   {...register("skillLevelId")}
                 >
                   {skillLevels.map((elem, index) => (
-                    <option key={index} value={elem.id}>{elem.name}</option>
+                    <option key={index} value={elem.id}>
+                      {elem.name}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -192,9 +195,26 @@ const AddWorkout = () => {
                 </div>
               </div>
             </div>
+
+            <div className="w-full">
+              <label className="label" htmlFor="description">
+                Description
+              </label>
+              <textarea
+                id="description"
+                {...register("description")}
+                rows={4}
+                className="input pb-0"
+                placeholder="Write a comment..."
+                required
+              ></textarea>
+            </div>
           </div>
 
-          <AutofillCheckoutDemo location={location} setLocation={setLocation} />
+          <AutofillCheckoutDemo
+            defLocation={location}
+            setLocation={setLocation}
+          />
 
           <div className="flex">
             <button

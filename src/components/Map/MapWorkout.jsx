@@ -18,8 +18,8 @@ const MapWorkout = ({ data }) => {
   const pins = useMemo(() => (
     <Marker
       key={`marker-1`}
-      longitude={data.locationLongitude}
-      latitude={data.locationLatitude}
+      longitude={data.location.longitude}
+      latitude={data.location.latitude}
       onClick={(e) => {
         e.originalEvent.stopPropagation();
         setPopupInfo(data);
@@ -33,8 +33,8 @@ const MapWorkout = ({ data }) => {
     <div className="pt-4">
       <MapGL
         initialViewState={{
-          latitude: data.locationLatitude,
-          longitude: data.locationLongitude,
+          latitude: data.location.latitude,
+          longitude: data.location.longitude,
           zoom: 14.65,
           bearing: 0,
           pitch: 0,

@@ -1,5 +1,4 @@
 import ResultBlock from "./ResultBlock";
-import { resultData } from "../../data.js";
 import { Link } from "react-router-dom";
 
 const ResultsGrid = ({ data }: any) => {

@@ -1,8 +1,9 @@
 import { IBaseEntity } from "./IBaseEntity";
+import { IProfile } from "./IProfile";
 
 export interface IReview extends IBaseEntity {
   id: string;
   text: string;
-  appUserId: string;
+  createdByUser: IProfile;
   createdAt: string;
 }

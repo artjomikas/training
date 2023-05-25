@@ -4,7 +4,7 @@ import { CommentService } from "../services/CommentService";
 import { AuthContext } from "../context/AuthContext";
 import { IComment } from "../domain/IComment";
 import dayjs from "dayjs";
-
+import toast from "react-hot-toast";
 import { MdOutlineClose } from "react-icons/md";
 import Comment from "./Comment";
 import { WorkoutService } from "../services/WorkoutService";
@@ -35,6 +35,9 @@ const Comments = ({
       }));
 
   const onSubmit = async (data: any) => {
+    if(!user){
+      return toast.error("You must be logged in!")
+    }
     data.workoutId = workoutId;
     data.appUserId = user.id;
     data.parentCommentId = replyMessageId;
@@ -55,6 +58,17 @@ const Comments = ({
     workoutService.getById(workoutId).then((result) => {
       setFormattedComments(nest(result.comments));
     });
+  };
+
+  const deleteComment = async (id: string) => {
+    const commentService = new CommentService();
+    await commentService.removeComment(id);
+
+    workoutService.getById(workoutId).then((result) => {
+      setFormattedComments(nest(result.comments));
+    });
+
+    
   };
 
   useEffect(() => {
@@ -110,6 +124,7 @@ const Comments = ({
               data={data}
               style={""}
               setReply={setReply}
+              deleteComment={deleteComment}
               setReplyMessageId={setReplyMessageId}
             />
 
@@ -120,6 +135,7 @@ const Comments = ({
                   data={reply}
                   setReply={setReply}
                   setReplyMessageId={setReplyMessageId}
+                  deleteComment={deleteComment}
                 />
               </div>
             ))}
@@ -130,7 +146,7 @@ const Comments = ({
                   <textarea
                     id="comment"
                     {...register("text")}
-                    rows={6}
+                    rows={2}
                     className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                     placeholder="Write a comment..."
                     required

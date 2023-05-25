@@ -6,18 +6,20 @@ import Greeting from "../components/Greeting";
 import MapBox from "../components/Map/MapBox";
 import Calendar from "./../components/Calendar";
 import PriceFilter from "./../components/PriceFilter";
+import WorkoutTypeFilter from "./../components/WorkoutTypeFilter";
 import { DataContext } from "./../context/DataContext";
-import { addDays } from "date-fns";
 
 const Home = () => {
   const workoutService = new WorkoutService();
-  const { selectedDate } = useContext(DataContext);
-
+  const { selectedDate, selectedWorkoutType } = useContext(DataContext);
   const [data, setData] = useState([] as IReview[]);
 
   useEffect(() => {
     workoutService
-      .getWithDate({ startDate: addDays(selectedDate, 1) })
+      .getWithDate({
+        startDate: selectedDate,
+        workoutTypeId: selectedWorkoutType,
+      })
       .then((response) => {
         if (response) {
           setData(response);
@@ -25,7 +27,7 @@ const Home = () => {
           setData([]);
         }
       });
-  }, [selectedDate]);
+  }, [selectedDate, selectedWorkoutType]);
 
   return (
     <div className="grid grid-cols-2">
@@ -35,9 +37,9 @@ const Home = () => {
       </div>
 
       <div className="flex flex-col">
-        <div className="flex gap-20">
+        <div className="flex gap-16">
           <Calendar />
-          <PriceFilter />
+          <WorkoutTypeFilter />
         </div>
 
         <MapBox data={data} />

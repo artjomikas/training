@@ -9,10 +9,15 @@ import {
   History,
   Schedule,
   Workout,
-  Profile
+  Profile,
+  Settings,
+  EditWorkout,
 } from ".";
 import AuthProvider from "./context/AuthContext";
 import DataProvider from "./context/DataContext";
+
+import { Toaster } from "react-hot-toast";
+
 // const router = createBrowserRouter([
 //   {
 //     path: "/",
@@ -58,6 +63,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "edit-workout",
+        element: <EditWorkout />,
+      },
+      {
         path: "login",
         element: <Login />,
       },
@@ -78,12 +87,16 @@ const router = createBrowserRouter([
         element: <Schedule />,
       },
       {
-        path: "profile",
+        path: "profile/:id",
         element: <Profile />,
       },
       {
         path: "workout/:id",
         element: <Workout />,
+      },
+      {
+        path: "settings",
+        element: <Settings />,
       },
     ],
   },
@@ -98,6 +111,7 @@ function App() {
   return (
     <AuthProvider>
       <DataProvider>
+        <Toaster position="bottom-center" />
         <RouterProvider router={router} />
       </DataProvider>
     </AuthProvider>

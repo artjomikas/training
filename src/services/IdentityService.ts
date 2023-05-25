@@ -4,6 +4,7 @@ import { IRegisterData } from "../dto/IRegisterData";
 import { ILoginData } from "../dto/ILoginData";
 import { BaseService } from "./BaseService";
 import { IAxiosResponse } from "../dto/IAxiosResponse";
+import { IUser } from "../domain/IUser";
 
 export class IdentityService extends BaseService {
   constructor() {
@@ -65,6 +66,50 @@ export class IdentityService extends BaseService {
       };
 
       return res;
+    }
+  }
+
+  async updateUser(user: IUser): Promise<any | undefined> {
+    try {
+      const response = await this.axios.put<any>("update", user);
+      if (response.status === 200) {
+        return response.data;
+      }
+
+      return undefined;
+    } catch (e) {
+      console.log("error: ", (e as Error).message);
+      return undefined;
+    }
+  }
+
+  async getById(id: string): Promise<any | undefined> {
+    try {
+      const response = await this.axios.get<any>(`getUserById/${id}`);
+
+      if (response.status === 200) {
+        return response.data;
+      }
+
+      return undefined;
+    } catch (e) {
+      console.log("error: ", (e as Error).message);
+      return undefined;
+    }
+  }
+
+  async getProfileById(id: string): Promise<any | undefined> {
+    try {
+      const response = await this.axios.get<any>(`getProfileById/${id}`);
+
+      if (response.status === 200) {
+        return response.data;
+      }
+
+      return undefined;
+    } catch (e) {
+      console.log("error: ", (e as Error).message);
+      return undefined;
     }
   }
 

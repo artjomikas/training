@@ -1,18 +1,3 @@
-import {
-  add,
-  addDays,
-  eachDayOfInterval,
-  endOfMonth,
-  format,
-  getDay,
-  isEqual,
-  isSameDay,
-  isSameMonth,
-  isToday,
-  parse,
-  parseISO,
-  startOfToday,
-} from "date-fns";
 import { useEffect, useState } from "react";
 import {
   MdOutlineKeyboardArrowLeft,
@@ -20,25 +5,29 @@ import {
 } from "react-icons/md";
 import { useContext } from "react";
 import { DataContext } from "./../context/DataContext";
+import dayjs from "dayjs";
 
 const Calendar = () => {
   const { selectedDate, setSelectedDate } = useContext(DataContext);
 
-  let today = startOfToday();
-  let [startDate, setStartDate] = useState(today);
+  let today = dayjs();
   const [intervalDate, setIntervalDate] = useState(today);
-
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const date = addDays(startDate, 4 * count);
-    setIntervalDate(date);
+    const interval = today.add(4 * count, "day");
+    setIntervalDate(interval);
   }, [count]);
 
-  let days = eachDayOfInterval({
-    start: intervalDate,
-    end: addDays(intervalDate, 4),
-  });
+  let days: any[] = [];
+  const dateRange = () => {
+    const times = 5;
+    for (let i = 0; i < times; i++) {
+      const toPrint = dayjs(intervalDate).add(1 * i, "day");
+      days.push(toPrint);
+    }
+  };
+  dateRange();
 
   return (
     <div className="flex flex-col items-center">
@@ -49,10 +38,9 @@ const Calendar = () => {
           onClick={() => count > 0 && setCount(count - 1)}
         />
         <p className="font-semibold text-xl">
-          {` ${format(intervalDate, "LLLL")}  ${format(
-            intervalDate,
-            "d"
-          )} - ${format(addDays(intervalDate, 4), "d")}`}
+          {` ${dayjs(intervalDate).format("MMM")}  ${dayjs(intervalDate).format(
+            "D"
+          )} -   ${dayjs(intervalDate).add(4, "day").format("D")}`}
         </p>
         <MdOutlineKeyboardArrowRight
           size={27}
@@ -66,24 +54,26 @@ const Calendar = () => {
           {days.map((date: any, i: number) => (
             <div
               className={`w-[45px] h-[55px] flex justify-center items-center rounded-lg ${
-                isEqual(date, selectedDate) && "bg-[#F39F2D]"
+                dayjs(date).isSame(selectedDate, "d") && "bg-[#F39F2D]"
               }`}
               key={i}
             >
               <button
                 className={`flex flex-col items-center  leading-5
               ${
-                !isEqual(date, selectedDate) ? "text-[#8C9AAD]" : "text-white"
+                !dayjs(date).isSame(selectedDate, "d")
+                  ? "text-[#8C9AAD]"
+                  : "text-white"
               }`}
-                onClick={() => setSelectedDate(date)}
+                onClick={() => setSelectedDate(date.toDate())}
               >
-                <h2>{format(date, "iiiiii")}</h2>
+                <h2>{dayjs(date).format("dd")}</h2>
                 <h3
                   className={`${
-                    !isEqual(date, selectedDate) && "text-[#111235]"
+                    !dayjs(date).isSame(selectedDate, "d") && "text-[#111235]"
                   }`}
                 >
-                  {format(date, "d")}
+                  {dayjs(date).format("D")}
                 </h3>
               </button>
             </div>

@@ -1,17 +1,20 @@
-import { useLocation } from "react-router-dom";
 import Intensity from "../components/Intensity";
-import { format } from "date-fns";
 import { AuthContext } from "../context/AuthContext";
 import { useContext, useState, useEffect } from "react";
-import { Routes, Route, useParams } from "react-router-dom";
-
+import { Link, useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import toast from "react-hot-toast";
 import Comments from "../components/Comments";
 import MapWorkout from "../components/Map/MapWorkout";
 import { WorkoutUsersService } from "./../services/WorkoutUsersService";
 import { WorkoutService } from "../services/WorkoutService";
 import { IResult } from "../domain/IResult";
+import Tooltip from "../components/Tooltip";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const Workout = () => {
+  const navigate = useNavigate();
   let { id } = useParams<{ id?: string }>();
   const { user } = useContext(AuthContext);
   const [joined, setJoined] = useState(false);
@@ -21,6 +24,10 @@ const Workout = () => {
   const workoutService = new WorkoutService();
 
   const addToSchedule = async () => {
+    if (!user) {
+      return toast.error("You must be logged in!");
+    }
+
     const data = {
       AppUserId: user.id,
       WorkoutId: id,
@@ -29,8 +36,15 @@ const Workout = () => {
     const workoutUsersService = new WorkoutUsersService();
     const res = await workoutUsersService.addToSchedule(data);
 
-    setScheduleId(res.id);
-    setJoined(true);
+    if (res?.status == 200) {
+      setScheduleId(res!.data.id);
+
+      toast.success("Successfully registered!");
+      setJoined(true);
+    } else if (res) {
+      toast.error(res.error);
+      setJoined(false);
+    }
   };
 
   const removeFromSchedule = async () => {
@@ -39,18 +53,38 @@ const Workout = () => {
     await workoutUsersService.removeFromSchedule(scheduleId);
 
     setJoined(false);
+    toast.success("Successfully unregistered!");
+  };
+
+  const removeWorkout = async () => {
+    await workoutService.deleteById(id as string);
+    // await workoutUsersService.removeFromSchedule(scheduleId);
+
+    // setJoined(false);
+    toast.success("Successfully deleted!");
+  };
+
+  const editWorkout = async () => {
+    // await workoutService.deleteById(id as string);
+    // await workoutUsersService.removeFromSchedule(scheduleId);
+
+    // setJoined(false);
+    // toast.success("Successfully deleted!");
+    navigate("/edit-workout", { state: workout });
   };
 
   useEffect(() => {
     workoutService.getById(id as string).then((response) => {
       if (response) {
         setWorkout(response);
-        var id = response.workoutUsers.find(
-          (c: any) => c.appUserId === user.id
-        )?.id;
+        if (user) {
+          var id = response.workoutUsers.find(
+            (c: any) => c.appUserId === user.id
+          )?.id;
 
-        setScheduleId(id);
-        setJoined(id !== undefined);
+          setScheduleId(id);
+          setJoined(id !== undefined);
+        }
       }
     });
   }, []);
@@ -63,9 +97,9 @@ const Workout = () => {
             {workout.name}
           </h1>
 
-          <div>
+          <div className="flex items-center gap-2">
             {joined ? (
-              <div className="rounded-md relative inline-flex group items-center justify-center px-2.5 py-1 m-1 border-b-4 border-l-2 shadow-lg bg-gradient-to-tr from-[#50C878] to-[#41a763] border-[#3b9459] text-white">
+              <div className="cursor-pointer rounded-md relative inline-flex group items-center justify-center px-2.5 py-1 m-1 border-b-4 border-l-2 shadow-lg bg-gradient-to-tr from-[#50C878] to-[#41a763] border-[#3b9459] text-white">
                 <span
                   className="relative tracking-wider font-medium text-sm"
                   onClick={() => removeFromSchedule()}
@@ -84,19 +118,58 @@ const Workout = () => {
                 </span>
               </button>
             )}
+
+            {/* <div className="cursor-pointer rounded-md relative inline-flex group items-center justify-center px-2.5 py-1 m-1 border-b-4 border-l-2 shadow-lg bg-gradient-to-tr from-orange to-[#f1cb20] border-[#d8952f] text-white">
+              <span
+                className="relative tracking-wider font-medium text-sm"
+                onClick={() => removeFromSchedule()}
+              >
+                EDIT
+              </span>
+            </div> */}
+
+            {workout.appUser?.id == user?.id && (
+              <>
+                <Tooltip message="delete">
+                  <MdDelete
+                    size={25}
+                    className="cursor-pointer text-red-600"
+                    onClick={() => removeWorkout()}
+                  />
+                </Tooltip>
+
+                <Tooltip message="edit">
+                  <MdEdit
+                    size={20}
+                    className="cursor-pointer text-amber-500"
+                    onClick={() => editWorkout()}
+                  />
+                </Tooltip>
+              </>
+            )}
+
+            {/* <div className="cursor-pointer rounded-md relative inline-flex group items-center justify-center px-2.5 py-1 m-1 border-b-4 border-l-2 shadow-lg bg-gradient-to-tr from-[#EE4B2B] to-[#D22B2B] border-[#C41E3A] text-white">
+              <span
+                className="relative tracking-wider font-medium text-sm"
+                onClick={() => removeWorkout()}
+              >
+                DELETE
+              </span>
+            </div> */}
           </div>
         </div>
 
         <div className="flex gap-4 pt-2">
           <div className="px-2 py-1 rounded-lg bg-[#FFF6E7] text-orange font-semibold text-sm">
-            {workout.workoutTypeName}
+            {workout.workoutType?.name}
           </div>
           <div className="px-2 py-1 rounded-lg bg-slate-200 text-slate-500 text-sm">
-            {workout.skillLevelName}
+            {workout.skillLevel?.name}
           </div>
         </div>
         <div className="grid grid-cols-2 gap-8  pt-9 ">
           <div className="flex flex-col gap-y-4 text-[#666]">
+            <div className="">Organizer</div>
             <div className="">Participants</div>
             <div className="">Price</div>
             <div className="">Date</div>
@@ -105,32 +178,58 @@ const Workout = () => {
           </div>
 
           {Object.values(workout).length != 0 && (
-            <div className="flex flex-col gap-y-4 my-auto font-poppins">
-              <div className="">-</div>
+            <div className="flex flex-col gap-y-4 font-poppins">
+              <div className="h-[24px]">
+                <Link
+                  className="inline-flex items-center leading-none text-sm text-gray-900"
+                  to={`/profile/${workout.appUser.id}`}
+                >
+                  <img
+                    id="avatar"
+                    src={workout.appUser.image}
+                    className="mr-2 w-7 h-7 rounded-full "
+                    alt="Profile Avatar"
+                  />
+                  <p className="text-sm">
+                    {workout.appUser.firstName} {workout.appUser.lastName}
+                  </p>
+                </Link>
+              </div>
 
-              <div className="">
-                {workout.price == 0 ? "FREE" : workout.price + " €"}
+              <div className="flex gap-2 h-[24px]">
+                {workout.workoutUsers.map((element, i) => (
+                  <Tooltip
+                    key={i}
+                    message={`${element.appUserFirstName} ${element.appUserLastName}`}
+                  >
+                    <Link to={`/profile/${element.appUserId}`}>
+                      <img
+                        className="w-7 h-7 border-2 border-white rounded-full dark:border-gray-800"
+                        src={element.appUserImage}
+                        alt="Profile image"
+                      ></img>
+                    </Link>
+                  </Tooltip>
+                ))}
               </div>
-              <div className="">
-                {format(Date.parse(workout.startDate), "LLLL e, kk:mm")} -
-                {format(Date.parse(workout.endDate), "kk:mm")}
+
+              <div>{workout.price == 0 ? "FREE" : workout.price + " €"}</div>
+              <div>
+                {dayjs(workout.startDate).format("MMM D, HH:mm")}
+                {" - "}
+                {dayjs(workout.endDate).format("HH:mm")}
               </div>
-              <div className="">{workout.locationName}</div>
+              <div>{workout.location?.name}</div>
 
               <div className="flex h-6">
-                <Intensity name={workout.intensityName} />
+                <Intensity name={workout.intensity?.name} />
               </div>
             </div>
           )}
         </div>
 
         <div className="pt-8 text-xl font-semibold">Description</div>
-        <p className="text-[#666] font-normal pt-2">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt
-          libero non commodi similique magnam sequi neque, consequuntur
-          distinctio ipsa modi quidem, officiis obcaecati. Maxime nostrum
-          recusandae minima veritatis tempore praesentium!
-        </p>
+        <p className="text-[#666] font-normal pt-2">{workout.description}</p>
 
         <div className="duration-300 border-b-2 border-blue-500 w-[35%] pt-14 gap-14 flex flex-row">
           {["Comments", "Map"].map((data, index) => (
@@ -148,7 +247,9 @@ const Workout = () => {
 
         {activeTab === "Map" && <MapWorkout data={workout}></MapWorkout>}
 
-        {activeTab === "Comments" && <Comments comments={workout.comments} workoutId={workout.id} />}
+        {activeTab === "Comments" && (
+          <Comments comments={workout.comments} workoutId={workout.id} />
+        )}
       </div>
     </div>
   );

@@ -1,10 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import ResultsGrid from "./ResultsGrid";
 import { IoIosAdd } from "react-icons/io";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
+import toast from "react-hot-toast";
 
 const Results = ({ data }: any) => {
   const navigate = useNavigate();
-
+  const { user } = useContext(AuthContext);
+  
   return (
     <div className="pt-14">
       <div className="flex items-center content-center gap-4">
@@ -14,7 +18,11 @@ const Results = ({ data }: any) => {
         </div>
 
         <button
-          onClick={() => navigate("/add-workout")}
+          onClick={() =>
+            user
+              ? navigate("/add-workout")
+              : toast.error("You must be logged in!")
+          }
           className="rounded-md relative inline-flex group items-center justify-center px-3 py-1.5 m-1 cursor-pointer border-b-4 border-l-2 active:border-[#8d5f1f] active:shadow-none shadow-lg bg-gradient-to-tr from-[#F39F2D] to-[#faae44] border-[#c08026] text-white"
         >
           <IoIosAdd size={20} className="mr-0.5" />

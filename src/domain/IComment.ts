@@ -1,8 +1,9 @@
+import { IProfile } from "./IProfile";
+
 export interface IComment {
   id: string;
   text: string;
-  appUserFirstName: string;
-  appUserLastName: string;
+  appUser: IProfile
   createdAt: string;
   parentCommentId: string;
   replies: IComment[]

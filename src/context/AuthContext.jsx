@@ -1,38 +1,26 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import { IdentityService } from "../services/IdentityService";
-
 import jwt_decode from "jwt-decode";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  const formatJWT = (data) => {
-    const url = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/";
+  const [initializing, setInitializing] = useState(true);
 
-    const newData = {
-      id: data[url + "nameidentifier"],
-      firstName: data[url + "givenname"],
-      lastName: data[url + "surname"],
-      email: data[url + "emailaddress"],
-      exp: data["exp"],
-    };
-    return newData;
+  const getUserById = async (data) => {
+    const identityService = new IdentityService();
+    const url = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/";
+    const id = data[url + "nameidentifier"];
+    const user = await identityService.getById(id);
+    return user;
   };
 
-  const [user, setUser] = useState(() => {
-    if (localStorage.getItem("tokens")) {
-      let tokens = JSON.parse(localStorage.getItem("tokens"));
-      const decodedJWT = jwt_decode(tokens.jwt);
-      const userData = formatJWT(decodedJWT);
-      return userData;
-    }
-    return null;
-  });
+  const [user, setUser] = useState(null);
 
   const setJwtResponse = async (data) => {
     localStorage.setItem("tokens", JSON.stringify(data));
     const decodedJWT = jwt_decode(data.jwt);
-    const userData = formatJWT(decodedJWT);
+    const userData = await getUserById(decodedJWT);
     setUser(userData);
   };
 
@@ -48,16 +36,26 @@ const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  // const register = async (data) => {
-  //   const apiResponse = await axios.post(
-  //     "http://localhost:4000/auth/login",
-  //     payload
-  //   );
-  //   localStorage.setItem("tokens",  JSON.stringify(apiResponse.data));
-  //   setUser(jwt_decode(apiResponse.data.access_token));
-  //   navigate("/");
-  // };
+  useEffect(() => {
+    async function fetchUser() {
+      if (localStorage.getItem("tokens") || user) {
+        let tokens = JSON.parse(localStorage.getItem("tokens"));
+        const decodedJWT = jwt_decode(tokens.jwt);
 
+        const userData = await getUserById(decodedJWT);
+        setUser(userData);
+        setInitializing(false);
+      }
+      else{
+        setUser(null);
+        setInitializing(false);
+      }
+    }
+    fetchUser();
+  }, [localStorage.getItem("tokens")]);
+
+  if (initializing) return null;
+  
   return (
     <AuthContext.Provider
       value={{

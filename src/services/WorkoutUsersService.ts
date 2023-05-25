@@ -1,4 +1,8 @@
 import { BaseEntityService } from "./BaseEntityService";
+import { AxiosError } from "axios";
+import { IAxiosResponse } from "../dto/IAxiosResponse";
+
+
 
 export class WorkoutUsersService extends BaseEntityService<any> {
   constructor() {
@@ -34,18 +38,30 @@ export class WorkoutUsersService extends BaseEntityService<any> {
     }
   }
 
-  async addToSchedule(data: any): Promise<any | undefined> {
+  async addToSchedule(data: any): Promise<IAxiosResponse | undefined> {
     try {
       const response = await this.axios.post<any>("join", data);
 
       if (response.status === 200) {
-        return response.data;
-      }
+        const res: IAxiosResponse = {
+          status: 200,
+          error: "",
+          data: response.data,
+        };
 
-      return undefined;
-    } catch (e) {
-      console.log("error: ", (e as Error).message);
-      return undefined;
+        return res;
+      }
+    } catch (error) {
+      const err: any = (error as AxiosError).response;
+
+      console.log(err);
+      const res: IAxiosResponse = {
+        status: err.status,
+        error: err.data,
+        data: "",
+      };
+
+      return res;
     }
   }
 

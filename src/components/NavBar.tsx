@@ -6,6 +6,7 @@ import ProfileAvatar from "./ProfileAvatar";
 const NavBar = () => {
   const { user } = useContext(AuthContext);
 
+  console.log(user);
   const data = [
     { title: "Home", path: "/"},
     { title: "Schedule", path: "/schedule" },

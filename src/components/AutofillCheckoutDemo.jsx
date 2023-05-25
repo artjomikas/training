@@ -5,7 +5,7 @@ import {
   config,
 } from "@mapbox/search-js-react";
 
-export default function Address({location, setLocation}) {
+export default function Address({defLocation, setLocation}) {
   const [showFormExpanded, setShowFormExpanded] = useState(false);
   const [showMinimap, setShowMinimap] = useState(false);
   const [feature, setFeature] = useState();
@@ -25,8 +25,6 @@ export default function Address({location, setLocation}) {
   const handleRetrieve = useCallback(
     (res) => {
       const feature = res.features[0];
-      console.log(res);
-      console.log(feature);
       setLocation(feature)
 
       setFeature(feature);
@@ -49,6 +47,7 @@ export default function Address({location, setLocation}) {
           <input
             className="input"
             id="address"
+            defaultValue={defLocation}
             type="text"
             required
             autoComplete="address-line1"
@@ -57,14 +56,7 @@ export default function Address({location, setLocation}) {
           />
         </AddressAutofill>
 
-        {!showFormExpanded && (
-          <div
-            className="pt-2 text-sm font-medium cursor-pointer text-slate-600 hover:text-slate-800 hover:underline"
-            onClick={() => setShowFormExpanded(true)}
-          >
-            Enter an address manually
-          </div>
-        )}
+
         <div
           style={{ display: showFormExpanded ? "flex" : "none" }}
           className="flex flex-col gap-2 pt-4"

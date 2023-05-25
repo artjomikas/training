@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 const ResultBlock = ({
   image,
   name,
-  locationName,
+  location,
   startDate,
   endDate,
   price,
@@ -22,14 +22,14 @@ const ResultBlock = ({
       <div className="flex items-center gap-1">
         <MdLocationOn />
         {/* <img src={MdLocationOn} className="pb-[1px]"></img> */}
-        <p className="text-[14px] font-semibold">{locationName}</p>
+        <p className="text-[14px] font-semibold">{location.name}</p>
       </div>
 
       <div className="flex items-center gap-1">
         <MdAccessTimeFilled />
         {/* <img src={time} className="pb-[1px]"></img> */}
         <p className="text-[14px] font-medium">
-          {dayjs(startDate).format("MMM d, HH:mm")} -{" "}
+          {dayjs(startDate).format("MMM D, HH:mm")} -{" "}
           {dayjs(endDate).format("HH:mm")}
         </p>
       </div>
