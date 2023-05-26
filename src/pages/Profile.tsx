@@ -27,6 +27,7 @@ const Profile = () => {
   ];
 
   useEffect(() => {
+    console.log(id);
     identityService.getProfileById(id as string).then((response) => {
       if (response) {
         setProfile(response);
@@ -59,7 +60,7 @@ const Profile = () => {
             Joined {dayjs(profile.registeredAt).format("D MMM YYYY")}
           </h3>
           <div className="pt-2 text-sm text-slate-500">{profile.bio}</div>
-          {user.id != id && (
+          {user?.id != id && (
           <div className="pt-2">
             <button
               onClick={() => setShowModal(true)}

@@ -9,9 +9,9 @@ export class WorkoutUsersService extends BaseEntityService<any> {
     super("v1/WorkoutUsers");
   }
 
-  async getSchedule(data: any): Promise<any | undefined> {
+  async getSchedule(): Promise<any | undefined> {
     try {
-      const response = await this.axios.post<any>("schedule", data);
+      const response = await this.axios.get<any>("");
 
       if (response.status === 200) {
         return response.data;
@@ -23,9 +23,9 @@ export class WorkoutUsersService extends BaseEntityService<any> {
       return undefined;
     }
   }
-  async getHistory(data: any): Promise<any | undefined> {
+  async getHistory(): Promise<any | undefined> {
     try {
-      const response = await this.axios.post<any>("history", data);
+      const response = await this.axios.get<any>("history");
 
       if (response.status === 200) {
         return response.data;

@@ -20,7 +20,7 @@ const History = () => {
   useEffect(() => {
     user &&
       workoutUsersService
-        .getHistory({ appUserId: user.id })
+        .getHistory()
         .then((response) => {
           if (response) {
             const data = group(response)

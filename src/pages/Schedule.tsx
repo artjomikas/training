@@ -20,7 +20,7 @@ const Schedule = () => {
   useEffect(() => {
     user &&
       workoutUsersService
-        .getSchedule({ appUserId: user.id })
+        .getSchedule()
         .then((response) => {
           if (response) {
             const data = group(response)
