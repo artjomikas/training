@@ -18,39 +18,6 @@ import DataProvider from "./context/DataContext";
 
 import { Toaster } from "react-hot-toast";
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/",
-//     element: <Root />,
-//     errorElement: <ErrorPage />,
-//     children: [
-//       {
-//         path: "/",
-//         element: <Home />,
-//       },
-//       {
-//         path: "info/",
-//         element: <Info />,
-//       },
-//       {
-//         path: "login/",
-//         element: <Login />,
-//       },
-//       {
-//         path: "register/",
-//         element: <Register />,
-//       },
-//       {
-//         path: "privacy/:id",
-//         element: <Privacy />,
-//       },
-//       {
-//         path: "trainingplans/:id?",
-//         element: <TrainingPlans />,
-//       },
-//     ],
-//   },
-// ]);
 
 const router = createBrowserRouter([
   {
