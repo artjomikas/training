@@ -83,12 +83,12 @@ const Comments = ({
         className={`mb-6 ${reply && "hidden"}`}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+        <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
           <textarea
             id="comment"
             {...register("text")}
             rows={6}
-            className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+            className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none "
             placeholder="Write a comment..."
             required
           ></textarea>
@@ -142,12 +142,12 @@ const Comments = ({
 
             {replyMessageId == data.id && (
               <form className="mb-6" onSubmit={handleSubmit(onSubmit)}>
-                <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200">
                   <textarea
                     id="comment"
                     {...register("text")}
                     rows={2}
-                    className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                    className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none "
                     placeholder="Write a comment..."
                     required
                   ></textarea>

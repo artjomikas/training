@@ -25,7 +25,7 @@ const Review = ({ review }: { review: IReview }) => {
         </Link>
       </footer>
 
-      <p className="text-gray-500 dark:text-gray-400">{review.text}</p>
+      <p className="text-gray-500 ">{review.text}</p>
     </section>
   );
 };

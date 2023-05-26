@@ -19,20 +19,18 @@ const Schedule = () => {
 
   useEffect(() => {
     user &&
-      workoutUsersService
-        .getSchedule()
-        .then((response) => {
-          if (response) {
-            const data = group(response)
-              .by((workout) => dayjs(workout.workoutStartDate).format("D.MM"))
-              .asEntries();
+      workoutUsersService.getSchedule().then((response) => {
+        if (response) {
+          const data = group(response)
+            .by((workout) => dayjs(workout.workoutStartDate).format("D.MM"))
+            .asEntries();
 
-            setSelectedDate(data[0].key);
-            setData(data);
-          } else {
-            setData([]);
-          }
-        });
+          setSelectedDate(data[0].key);
+          setData(data);
+        } else {
+          setData([]);
+        }
+      });
   }, []);
 
   useEffect(() => {
@@ -111,7 +109,7 @@ const Schedule = () => {
                       <Link to={`/profile/${user.appUserId}`}>
                         <img
                           key={index}
-                          className="w-8 h-8 border-2 border-white rounded-full dark:border-gray-800"
+                          className="w-8 h-8 border-2 border-white rounded-full "
                           src={user.appUserImage}
                           alt=""
                         ></img>

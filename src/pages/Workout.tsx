@@ -205,7 +205,7 @@ const Workout = () => {
                     >
                       <Link to={`/profile/${element.appUserId}`}>
                         <img
-                          className="w-7 h-7 border-2 border-white rounded-full dark:border-gray-800"
+                          className="w-7 h-7 border-2 border-white rounded-full "
                           src={element.appUserImage}
                           alt="Profile image"
                         ></img>

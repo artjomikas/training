@@ -50,7 +50,7 @@ const Comment = ({
           ""}
       </footer>
 
-      <p className="text-gray-500 dark:text-gray-400">{data.text}</p>
+      <p className="text-gray-500 ">{data.text}</p>
 
       <div className="flex items-center mt-4 space-x-3">
         <button
