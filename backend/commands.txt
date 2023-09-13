@@ -33,6 +33,3 @@ dotnet aspnet-codegenerator controller -m Workout -name WorkoutsController -outD
 
 
 
-docker buildx build --progress=plain  -t webapp:latest .
-docker tag webapp artjomikas/icd0021-22-23-s-training-finder-app:latest
-docker push artjomikas/icd0021-22-23-s-training-finder-app:latest
