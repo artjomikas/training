@@ -25,7 +25,36 @@ export abstract class BaseEntityService<
     try {
       const response = await this.axios.post<TEntity[]>("", data);
 
-      console.log("login response", response);
+      if (response.status === 200) {
+        return response.data;
+      }
+
+      return undefined;
+    } catch (e) {
+      console.log("error: ", (e as Error).message);
+      return undefined;
+    }
+  }
+
+  async delete(id: string): Promise<any | undefined> {
+    try {
+      const response = await this.axios.delete<any>("" + id);
+
+      if (response.status === 200) {
+        return response.data;
+      }
+
+      return undefined;
+    } catch (e) {
+      console.log("error: ", (e as Error).message);
+      return undefined;
+    }
+  }
+
+  
+  async get(id: string): Promise<any | undefined> {
+    try {
+      const response = await this.axios.get<any>("" + id);
 
       if (response.status === 200) {
         return response.data;
