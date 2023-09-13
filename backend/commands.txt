@@ -1,0 +1,38 @@
+﻿
+
+dotnet ef migrations add Initial --project DAL.EF.App --startup-project WebApp --context ApplicationDbContext
+dotnet ef database update --project DAL.EF.App --startup-project WebApp --context ApplicationDbContext
+
+
+dotnet tool install --global dotnet-aspnet-codegenerator
+
+dotnet aspnet-codegenerator controller -m Review -name ReviewsController -outDir Controllers -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Comment -name CommentsController -outDir Controllers -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Intensity -name IntensitiesController -outDir Controllers -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Location -name LocationsController -outDir Controllers -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m SkillLevel -name SkillLevelsController -outDir Controllers -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Workout -name WorkoutsController -outDir Controllers -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m WorkoutType -name WorkoutTypesController -outDir Controllers -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m WorkoutUser -name WorkoutUsersController -outDir Controllers -dc ApplicationDbContext -udl --referenceScriptLibraries
+
+
+dotnet aspnet-codegenerator controller -m Comment -name CommentsController -outDir Api -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Client -name ClientsController -outDir Api -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Intensity -name IntensitiesController -outDir Api -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Location -name LocationsController -outDir Api -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Review -name ReviewsController -outDir ApiControllers -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m SkillLevel -name SkillLevelsController -outDir Api -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m Workout -name WorkoutsController -outDir Api -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m WorkoutType -name WorkoutTypesController -outDir Api -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+dotnet aspnet-codegenerator controller -m WorkoutUser -name WorkoutUsersController -outDir Api -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+
+
+GENERATE IDENTITY
+dotnet aspnet-codegenerator identity -dc DAL.EF.App/ApplicationDbContext -f
+dotnet aspnet-codegenerator controller -m Workout -name WorkoutsController -outDir ApiControllers -api -dc ApplicationDbContext -udl --referenceScriptLibraries
+
+
+
+docker buildx build --progress=plain  -t webapp:latest .
+docker tag webapp artjomikas/icd0021-22-23-s-training-finder-app:latest
+docker push artjomikas/icd0021-22-23-s-training-finder-app:latest
